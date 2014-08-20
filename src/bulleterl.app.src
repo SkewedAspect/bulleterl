@@ -1,0 +1,14 @@
+{application, bulleterl,
+ [
+  {description, "An Erlang bulleterl library"},
+  {vsn, "1"},
+  {modules, [
+             bulleterl
+            ]},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []}
+ ]}.
