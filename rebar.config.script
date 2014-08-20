@@ -17,17 +17,14 @@ PortEnv2 = case os:find_executable("clang") of
 		)
 end,
 
-CXXFLAGS1 = proplists:get_value("CXXFLAGS", CONFIG, "$CXXFLAGS"),
-CXXFLAGS3 = CXXFLAGS2 ++ os:cmd("pkg-config --cflags bullet"),
+CXXFLAGS2 = proplists:get_value("CXXFLAGS", CONFIG, "$CXXFLAGS"),
+CXXFLAGS3 = os:cmd("pkg-config --cflags bullet | tr -d '\n'") ++ CXXFLAGS2,
 PortEnv3 = lists:keystore("CXXFLAGS", 1, PortEnv2, {"CXXFLAGS", CXXFLAGS3 ++ " -fcolor-diagnostics"}),
 
 LDFLAGS2 = proplists:get_value("LDFLAGS", CONFIG, "$LDFLAGS"),
-LDFLAGS3 = LDFLAGS2 ++ os:cmd("pkg-config --libs bullet"),
+LDFLAGS3 = os:cmd("pkg-config --libs bullet | tr -d '\n'") ++ LDFLAGS2,
 PortEnv4 = lists:keystore("LDFLAGS", 1, PortEnv3, {"LDFLAGS", LDFLAGS3 ++ " -fcolor-diagnostics"}),
 
 lists:keystore(port_env, 1, CONFIG, {port_env, PortEnv4}).
-
-%{"CXXFLAGS", "$CXXFLAGS -fPIC -I/usr/include/bullet -fcolor-diagnostics"},
-%{"LDFLAGS", "-L/usr/lib -lBulletDynamics -lBulletCollision -lLinearMath -fcolor-diagnostics"}
 
 % vim: ft=erlang
