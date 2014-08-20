@@ -21,7 +21,7 @@ static ErlNifFunc nif_funcs[] =
 static ERL_NIF_TERM bulleterl_new(ErlNifEnv* env, int argc,
                                    const ERL_NIF_TERM argv[])
 {
-    bulleterl_handle* handle = enif_alloc_resource(bulleterl_RESOURCE,
+    bulleterl_handle* handle = (bulleterl_handle*) enif_alloc_resource(bulleterl_RESOURCE,
                                                     sizeof(bulleterl_handle));
     ERL_NIF_TERM result = enif_make_resource(env, handle);
     enif_release_resource(handle);
@@ -43,7 +43,7 @@ static void bulleterl_resource_cleanup(ErlNifEnv* env, void* arg)
 
 static int on_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
-    ErlNifResourceFlags flags = ERL_NIF_RT_CREATE | ERL_NIF_RT_TAKEOVER;
+    ErlNifResourceFlags flags = ErlNifResourceFlags(ERL_NIF_RT_CREATE | ERL_NIF_RT_TAKEOVER);
     ErlNifResourceType* rt = enif_open_resource_type(env, NULL,
                                                      "bulleterl_resource",
                                                      &bulleterl_resource_cleanup,
