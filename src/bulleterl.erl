@@ -6,7 +6,7 @@
 
 -define(nif_stub, nif_stub_error(?LINE)).
 nif_stub_error(Line) ->
-    erlang:nif_error({nif_not_loaded, module, ?MODULE, line, Line}).
+	erlang:nif_error({nif_not_loaded, module, ?MODULE, line, Line}).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
@@ -14,20 +14,20 @@ nif_stub_error(Line) ->
 
 init() ->
     PrivDir = case code:priv_dir(?MODULE) of
-                  {error, bad_name} ->
-                      EbinDir = filename:dirname(code:which(?MODULE)),
-                      AppPath = filename:dirname(EbinDir),
-                      filename:join(AppPath, "priv");
-                  Path ->
-                      Path
-              end,
-    erlang:load_nif(filename:join(PrivDir, ?MODULE), 0).
+		{error, bad_name} ->
+			EbinDir = filename:dirname(code:which(?MODULE)),
+			AppPath = filename:dirname(EbinDir),
+			filename:join(AppPath, "priv");
+		Path ->
+			Path
+	end,
+	erlang:load_nif(filename:join(PrivDir, ?MODULE), 0).
 
 new() ->
-    ?nif_stub.
+	?nif_stub.
 
 myfunction(_Ref) ->
-    ?nif_stub.
+	?nif_stub.
 
 %% ===================================================================
 %% EUnit tests
@@ -35,7 +35,7 @@ myfunction(_Ref) ->
 -ifdef(TEST).
 
 basic_test() ->
-    {ok, Ref} = new(),
-    ?assertEqual(ok, myfunction(Ref)).
+	{ok, Ref} = new(),
+	?assertEqual(ok, myfunction(Ref)).
 
 -endif.
